@@ -17,24 +17,24 @@ def hex_to_rgb(hex):
     return rgb
 
 def read_json(filename):
-    jsonFile = open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/Storage/guilds.json', 'r')
+    jsonFile = open(f"{os.getcwd()}\Public\Storage\guilds.json", 'r')
     data = json.load(jsonFile)
     jsonFile.close()
     return data
 
 def write_json(data):
-    jsonFile = open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/Storage/guilds.json', 'w+') 
+    jsonFile = open(f'{os.getcwd()}\Public\Storage\guilds.json', 'w+') 
     jsonFile.write(json.dumps(data, indent=4))
     jsonFile.close()
 
 def pretty_json(guild):
-    jsonFile = open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/Storage/guilds.json', 'r')
+    jsonFile = open(f'{os.getcwd()}\Public\Storage\guilds.json', 'r')
     data = json.load(jsonFile)
     jsonFile.close()
     return json.dumps(data[str(guild)], indent=4, sort_keys=True)
 
 def add_guild(guild):
-    with open('C:/Users/A/Desktop/Discord/Image Manipulation/Public/Storage/guilds.json') as jsonFile: 
+    with open(f'{os.getcwd()}\Public\Storage\guilds.json') as jsonFile: 
         data = json.load(jsonFile)
         x = {
             guild: {
@@ -63,10 +63,10 @@ def generate_banner(member, guild):
     try:
         im = Image.open(BytesIO(response.content))
         if im.is_animated:
-            im = Image.open(BytesIO(response.content)).convert('RGB').save(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}PFP.png')
+            im = Image.open(BytesIO(response.content)).convert('RGB').save(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}PFP.png')
         else:
-            im = Image.open(BytesIO(response.content)).convert('RGB').save(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}PFP.png')
-        im = Image.open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}PFP.png')
+            im = Image.open(BytesIO(response.content)).convert('RGB').save(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}PFP.png')
+        im = Image.open(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}PFP.png')
         im = im.resize((300, 300))
         bigsize = (im.size[0] * 3, im.size[1] * 3)
         mask = Image.new('L', bigsize, 0)
@@ -76,7 +76,7 @@ def generate_banner(member, guild):
         im.putalpha(mask)
         output = ImageOps.fit(im, mask.size, centering=(0.5, 0.5))
         output.putalpha(mask)
-        output.save(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}CirclePFP.png')
+        output.save(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}CirclePFP.png')
     except IOError as error:
         print(error)
 
@@ -87,12 +87,12 @@ def generate_banner(member, guild):
 
     # Stuff
     try:
-        backgroundImg = Image.open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/guild_backgrounds/{guild.id}_background.png')
+        backgroundImg = Image.open(f'{os.getcwd()}\Public\Storage\guild_backgrounds\{guild.id}_background.png')
     except FileNotFoundError as error:
-        backgroundImg = Image.open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/default_background.png')
+        backgroundImg = Image.open(f'{os.getcwd()}\Public\Storage\default_background.png')
     
         
-    newProfilePic = Image.open(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}CirclePFP.png')
+    newProfilePic = Image.open(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}CirclePFP.png')
     backgroundImg.paste(newProfilePic, (675, 45), newProfilePic)
 
     # Messages
@@ -104,16 +104,16 @@ def generate_banner(member, guild):
 
     # Fonts
     if len(msg) >= 50:
-        font = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 42)
+        font = ImageFont.truetype(f"Enigmatic.ttf", 42)
     elif len(msg) >= 75:
-        font = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 32)
+        font = ImageFont.truetype(f"Enigmatic.ttf", 32)
     elif len(msg) >= 100:
-        font = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 24)
+        font = ImageFont.truetype(f"Enigmatic.ttf", 24)
     else:
-        font = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 64)
+        font = ImageFont.truetype(f"Enigmatic.ttf", 64)
     #font = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 64)
-    font2 = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/Enigmatic.ttf", 55)
-    font3 = ImageFont.truetype("C:/Users/A/Desktop/Discord/Image Manipulation/fonts/commando.ttf", 150)
+    font2 = ImageFont.truetype(f"Enigmatic.ttf", 55)
+    font3 = ImageFont.truetype(f"commando.ttf", 150)
 
     # Font Size Management
     w, h = font.getsize(msg)
@@ -126,15 +126,15 @@ def generate_banner(member, guild):
     draw.text(((W2-w2)/2,(H2-h2)/2), msg3, font=font3, fill=welcomecolor)
 
     #Misc
-    backgroundImg.save(f'C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}_background.png', quality=95)
+    backgroundImg.save(f'{os.getcwd()}\Public\Storage\pfp_dump\{member.id}_background.png', quality=95)
     #image = Image.open(f"C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}_background.png")
     
     #return image
 
 def remove_shit(member):
-    os.remove(f"C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}_background.png")
-    os.remove(f"C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}CirclePFP.png")
-    os.remove(f"C:/Users/A/Desktop/Discord/Image Manipulation/Public/pfp_dump/{member.id}PFP.png")
+    os.remove(f"{os.getcwd()}\Public\Storage\pfp_dump\{member.id}_background.png")
+    os.remove(f"{os.getcwd()}\Public\Storage\pfp_dump\{member.id}CirclePFP.png")
+    os.remove(f"{os.getcwd()}\Public\Storage\pfp_dump\{member.id}PFP.png")
 
 def resize_calculator(image): #Code by https://stackoverflow.com/users/223092/mark-longair
     width  = image.size[0]
@@ -164,3 +164,12 @@ def check_guild(guild):
         return True
     else:
         add_guild(guild.id)
+
+def read_global_config(filename):
+    jsonFile = open(f'config.json', 'r')
+    data = json.load(jsonFile)
+    jsonFile.close()
+    return data
+
+def get_dir(type):
+    data = read_global_config('config')
