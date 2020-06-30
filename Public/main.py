@@ -3,6 +3,8 @@ from discord.ext import commands
 from discord.utils import get
 import discord
 import re
+import os
+
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("w!"), owner_id=623915291142914068)
 extensions = ['imageGen']
 bot.remove_command('help')
@@ -68,5 +70,5 @@ async def reload(ctx, extension):
         c.set_author(name=f"WorldTech", icon_url="https://cdn.discordapp.com/attachments/627486955231248384/687095503271493634/WorldTech.png")
         await ctx.send(embed=c)
 
-
-bot.run('NzIzNTczOTMzNTIxMTA5MDgz.XuzohA.7p77eDd6gGLT5hiYM3JxXWAqv_A')
+token = open(f"token.txt", "r").read()
+bot.run(token)
