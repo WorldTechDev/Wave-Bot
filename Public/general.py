@@ -13,6 +13,7 @@ import urllib
 import re
 import json
 from functions import get_size, get_mb, hex_to_rgb, read_json, write_json, pretty_json, add_guild, generate_banner, remove_shit, resize_calculator, check_guild
+import platform
 
 class general(commands.Cog):
     def __init__(self, bot):
@@ -51,16 +52,23 @@ class general(commands.Cog):
 **w!config channel <#channel>** - Change the channel welcome messages will be sent to
 **w!config welcome_color <hex>** - Change the colour of the Welcome text
 **w!config text_color <hex>** - Change the color of the lines below Welcome"""
-
         embed=discord.Embed(description=f"**About**\n• Wave is an image based welcome bot, which provides customizability and premium support for **FREE**.\n\n**Commands**\n{configCmds}\n\n**Reminders**\n• The regular message option can be disabled by typing: \nw!config regular_message off\n\n**Information**\n• Due to system limitations we require all images to not exceed the maximum file size of 8 MB and that they be uploaded via https://gifyu.com/ in order to set your background image.", colour=0x2f3136)
         embed.set_author(name="Help", icon_url="https://cdn.discordapp.com/avatars/723573933521109083/6ffeb622ab2e1a33ba7c2ab916dca3ad.webp?size=1024")
-        embed.set_image(url=f"attachment://tutorial.png")
-        file = discord.File(f'{os.getcwd()}\Public\tutorial.png')
-        await ctx.send(file=file,embed=embed)
+        embed.set_image(url=f"https://cdn.discordapp.com/attachments/727193410762571789/727700017229332551/tutorial.png")
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.is_owner()
     async def eval(self, ctx, *, args):
         await ctx.send(f"```{eval(args)}```")
+    
+    @commands.command()
+    async def about(self, ctx):
+        embed=discord.Embed(colour=0x2f3136)
+        embed.set_author(name="About", icon_url="https://cdn.discordapp.com/avatars/723573933521109083/6ffeb622ab2e1a33ba7c2ab916dca3ad.webp?size=1024")
+        embed.add_field(name='Total Guilds', value=len(self.bot.guilds))
+        embed.add_field(name='Total Users:', value=len(set(self.bot.get_all_members())))
+        embed.set_footer(text=f"Python {platform.python_version()} | discord.py {discord.__version__} | world#1400")
+        await ctx.send(embed=embed)
 def setup(bot):
     bot.add_cog(general(bot))

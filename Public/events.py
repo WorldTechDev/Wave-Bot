@@ -67,13 +67,12 @@ class events(commands.Cog):
     **w!config welcome_color <hex>** - Change the colour of the Welcome text
     **w!config text_color <hex>** - Change the color of the lines below Welcome"""
 
-            embed=discord.Embed(description=f"**About**\n• Wave is an image based welcome bot, which provides customizability and premium support for **FREE**.\n\n**Commands**\n{configCmds}\n\n**Reminders**\n• The regular message option can be disabled by typing: \nw!config regular_message off\n\n**Information**\n• Due to system limitations we require all images to not exceed the maximum file size of 8 MB and that they be uploaded via https://gifyu.com/ in order to set your background image.", colour=0x2f3136)
+            embed=discord.Embed(description=f"To get started set your welcome channel by typing **w!config channel #channel-name**.\nFor instructions on fully fledged bot usage please type **w!help**.\n\nHave any questions or concerns? Join our support discord, https://discord.gg/RhkBuFt.", colour=0x2f3136)
             embed.set_author(name="Thank you for adding Wave.", icon_url="https://cdn.discordapp.com/avatars/723573933521109083/6ffeb622ab2e1a33ba7c2ab916dca3ad.webp?size=1024")
-            embed.set_image(url=f"attachment://tutorial.png")
-            file = discord.File(f'{os.getcwd()}\Public\tutorial.png')
-            await default_channel.send(file=file,embed=embed)
+            await default_channel.send(embed=embed)
         except Exception as error:
             await error.send(f"```\nGUILD: {guild.name}\n{error}```")
+
 
 def setup(bot):
     bot.add_cog(events(bot))
